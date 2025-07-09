@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#667eea" />
+    <!-- For better cross-browser support -->
+    <meta name="theme-color" content="#667eea" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+    <style>
+      body {
+        background-color: #667eea;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #0f172a;
+        }
+      }
+    </style>
+    <meta name="msapplication-navbutton-color" content="#667eea" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="msapplication-TileColor" content="#667eea" />
+    <meta name="description" content="TCP File Transfer System with Congestion Control Visualization" />
+    
+    <!-- iOS PWA Config -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- Android Splash Screen Metadata -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <title>TCP File Transfer System</title>
+    
+    <!-- Dynamic theme color for dark/light mode -->
+    <script>
+      const themeColor = matchMedia('(prefers-color-scheme: dark)').matches ? '#0f172a' : '#667eea';
+      document.querySelector('meta[name="theme-color"]').content = themeColor;
+    </script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>

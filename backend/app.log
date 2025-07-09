@@ -1,0 +1,80 @@
+2025-07-07 16:48:25,280 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:48:25,281 INFO: Starting TCP File Transfer Server [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:207]
+2025-07-07 16:48:35,283 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:48:45,288 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:48:55,334 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:49:05,335 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:49:08,116 ERROR: Exception on /api/health [GET] [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv\Lib\site-packages\flask\app.py:1414]
+Traceback (most recent call last):
+  File "C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py", line 136, in health_check
+    'file_manager': file_manager is not None,
+                    ^^^^^^^^^^^^
+NameError: name 'file_manager' is not defined
+2025-07-07 16:49:08,227 ERROR: Server error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:117]
+2025-07-07 16:49:08,363 ERROR: Exception on /api/health [GET] [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv\Lib\site-packages\flask\app.py:1414]
+Traceback (most recent call last):
+  File "C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv\Lib\site-packages\flask_cors\extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py", line 136, in health_check
+    'file_manager': file_manager is not None,
+                    ^^^^^^^^^^^^
+NameError: name 'file_manager' is not defined
+2025-07-07 16:49:08,369 ERROR: Server error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:117]
+2025-07-07 16:49:15,339 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:49:25,341 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:49:35,343 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:49:45,347 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:49:55,350 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:50:05,352 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:50:15,355 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:50:25,357 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:50:35,359 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:50:45,362 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:50:55,363 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:51:05,365 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:51:15,368 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:51:25,369 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:51:35,374 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:51:45,376 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:51:55,383 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:52:05,385 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:52:15,390 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:52:25,393 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:52:35,395 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:52:45,396 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:52:55,399 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:53:05,401 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:53:15,407 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:53:25,409 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:53:35,411 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:53:45,413 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:53:49,662 ERROR: Cleanup task error: 'ConnectionManager' object has no attribute 'cleanup_inactive_clients' [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:87]
+2025-07-07 16:53:52,081 INFO: Starting TCP File Transfer Server [in C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\app.py:215]
