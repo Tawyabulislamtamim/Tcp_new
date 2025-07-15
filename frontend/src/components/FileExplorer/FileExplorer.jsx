@@ -1,11 +1,8 @@
-// ⛔ Removed unused imports
 import React, { useState, useEffect } from 'react';
 import {
   Folder, File, Download, Loader2, AlertCircle
 } from 'lucide-react';
-import {
-  FiSearch, FiFilter, FiLock
-} from 'react-icons/fi';
+import { FiSearch, FiFilter, FiLock } from 'react-icons/fi';
 
 import { formatFileSize, formatDate } from '../../utils/formatters';
 import apiService from '../../services/api';
@@ -27,6 +24,9 @@ const FileExplorer = ({ onFileSelect }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState(null);
   const [totalSize, setTotalSize] = useState(0);
+
+  const [showAllFiles, setShowAllFiles] = useState(false);
+  const FILES_PREVIEW_COUNT = 10;
 
   useEffect(() => {
     const getClientId = async () => {
@@ -184,6 +184,10 @@ const FileExplorer = ({ onFileSelect }) => {
 
   const displayedFiles = searchResults ?? files;
 
+  const visibleFiles = showAllFiles
+    ? displayedFiles
+    : displayedFiles.slice(0, FILES_PREVIEW_COUNT);
+
   if (error) {
     return (
       <div className="file-explorer error">
@@ -239,36 +243,48 @@ const FileExplorer = ({ onFileSelect }) => {
           <h3>No files found</h3>
         </div>
       ) : (
-        <div className="file-list">
-          {displayedFiles.map((file) => (
-            <div
-              key={file.path}
-              onClick={() => handleFileClick(file)}
-              className={`file-item list-view ${file.is_directory ? 'directory' : ''}`}
-            >
-              <div className="file-icon">
-                {file.is_directory ? <Folder size={24} /> : <File size={24} />}
-              </div>
-              <div className="file-info">
-                <div className="file-name">{file.name}</div>
-                <div className="file-details">
-                  <span>{formatFileSize(file.size)}</span>
-                  <span>{formatDate(file.modified_time)}</span>
+        <>
+          <div className="file-list">
+            {visibleFiles.map((file) => (
+              <div
+                key={file.path}
+                onClick={() => handleFileClick(file)}
+                className={`file-item list-view ${file.is_directory ? 'directory' : ''}`}
+              >
+                <div className="file-icon">
+                  {file.is_directory ? <Folder size={24} /> : <File size={24} />}
                 </div>
+                <div className="file-info">
+                  <div className="file-name">{file.name}</div>
+                  <div className="file-details">
+                    <span>{formatFileSize(file.size)}</span>
+                    <span>{formatDate(file.modified_time)}</span>
+                  </div>
+                </div>
+                {!file.is_directory && (
+                  <button
+                    onClick={(e) => handleDownload(file, e)}
+                    className="download-button modern-download"
+                    title={`Download ${file.name}`}
+                  >
+                    <Download size={16} />
+                    <span className="download-text">Download</span>
+                  </button>
+                )}
               </div>
-              {!file.is_directory && (
-                <button
-                  onClick={(e) => handleDownload(file, e)}
-                  className="download-button modern-download"
-                  title={`Download ${file.name}`}
-                >
-                  <Download size={16} />
-                  <span className="download-text">Download</span>
-                </button>
+            ))}
+          </div>
+
+          {displayedFiles.length > FILES_PREVIEW_COUNT && (
+            <div className="file-list-toggle">
+              {showAllFiles ? (
+                <button onClick={() => setShowAllFiles(false)}>Show Less</button>
+              ) : (
+                <button onClick={() => setShowAllFiles(true)}>See More</button>
               )}
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
 
       <FileUpload

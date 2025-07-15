@@ -175,3 +175,5 @@ def upload_file():
     except Exception as e:
         current_app.logger.error(f"Upload error: {str(e)}")
         return jsonify({'error': str(e)}), 500
+    
+  

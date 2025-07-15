@@ -1,6 +1,6 @@
 .file-explorer {
-  width: 1430px; /* Set your desired fixed width */
-  max-width: 100%; /* Prevent overflow on smaller screens */
+  width: 2430px; /* Set your desired fixed width */
+  max-width: 52%; /* Prevent overflow on smaller screens */
   background: rgba(255, 255, 255, 0.95);
   padding: 1.5rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
