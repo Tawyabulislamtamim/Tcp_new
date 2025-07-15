@@ -1,0 +1,137 @@
+/* FileUpload.css */
+.file-upload-container {
+    margin: 40px 0;
+}
+
+.file-upload-area {
+    border: 2px dashed #cbd5e0;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-upload-area:hover {
+    border-color: #4299e1;
+    background: #ebf8ff;
+    transform: translateY(-2px);
+}
+
+.file-upload-area.dragging {
+    border-color: #38b2ac;
+    background: #e6fffa;
+    transform: scale(1.02);
+}
+
+.file-upload-area.uploading {
+    border-color: #ed8936;
+    background: #fffaf0;
+    cursor: not-allowed;
+}
+
+.upload-prompt,
+.upload-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.upload-icon {
+    font-size: 48px;
+    opacity: 0.7;
+}
+
+.upload-prompt h3,
+.upload-progress h3 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.upload-prompt p {
+    margin: 0;
+    color: #718096;
+    font-size: 16px;
+}
+
+.upload-button {
+    background: #4299e1;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.upload-button:hover {
+    background: #3182ce;
+    transform: translateY(-1px);
+}
+
+.progress-bar {
+    width: 300px;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4299e1, #38b2ac);
+    transition: width 0.3s ease;
+    border-radius: 4px;
+}
+
+.upload-progress p {
+    margin: 0;
+    color: #718096;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Animation for dragging state */
+.file-upload-area.dragging .upload-icon {
+    animation: bounce 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-10px);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .file-upload-area {
+        padding: 30px 15px;
+        min-height: 160px;
+    }
+    
+    .upload-icon {
+        font-size: 36px;
+    }
+    
+    .upload-prompt h3,
+    .upload-progress h3 {
+        font-size: 20px;
+    }
+    
+    .progress-bar {
+        width: 250px;
+    }
+}

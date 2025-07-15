@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\iamov\Desktop\Net\tcp-file-transfer\tcp-file-transfer\backend\venv
+set VIRTUAL_ENV=D:\Tawyabul Islam Tamim\3-1\computer networking\project\tcp-file-transfer\tcp-file-transfer\backend\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

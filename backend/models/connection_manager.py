@@ -21,10 +21,11 @@ class MetricsCollector:
         self.metrics[client_id][metric_type] = value
 
 class ClientConnection:
-    def __init__(self, client_id: str):
+    def __init__(self, client_id: str, is_demo: bool = False):
         self.client_id = client_id
         self.connected_at = time.time()
         self.last_activity = time.time()
+        self.is_demo = is_demo  # Flag to distinguish demo clients from real ones
         
         # Use the new adaptive TCP congestion control
         self.tcp_controller = AdaptiveTCPCongestionControl(AlgorithmType.RENO)
@@ -77,10 +78,15 @@ class ConnectionManager:
         self.cleanup_thread.daemon = True
         self.cleanup_thread.start()
         
-    def register_client(self) -> str:
+    def register_client(self, is_demo: bool = False) -> str:
         client_id = str(uuid.uuid4())
         with self.lock:
-            self.clients[client_id] = ClientConnection(client_id)
+            self.clients[client_id] = ClientConnection(client_id, is_demo=is_demo)
+            
+        # Log the type of client being registered
+        client_type = "DEMO" if is_demo else "REAL"
+        print(f"🔗 {client_type} Client registered: {client_id}")
+        
         return client_id
         
     def get_client(self, client_id: str) -> Optional[ClientConnection]:

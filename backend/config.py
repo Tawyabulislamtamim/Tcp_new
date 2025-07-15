@@ -18,6 +18,9 @@ class Config:
     CHUNK_SIZE = int(os.environ.get('CHUNK_SIZE', 8192))
     MAX_FILE_SIZE = int(os.environ.get('MAX_FILE_SIZE', 1024 * 1024 * 1024))  # 1GB
     
+    # Demo mode configuration
+    DEMO_MODE = os.environ.get('DEMO_MODE', 'False').lower() == 'true'
+    
     # Cleanup configuration
     CLEANUP_INTERVAL = int(os.environ.get('CLEANUP_INTERVAL', 60))  # seconds
     CLIENT_TIMEOUT = int(os.environ.get('CLIENT_TIMEOUT', 300))  # seconds
@@ -38,3 +41,4 @@ class Config:
         
         # Additional Flask-specific settings
         app.config['MAX_CONTENT_LENGTH'] = Config.MAX_FILE_SIZE
+        

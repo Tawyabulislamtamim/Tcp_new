@@ -33,8 +33,15 @@ class MetricsCollector:
             # Store client metrics
             self.metrics_history[client_id].append(metrics)
             
-            # Update global metrics
-            self.global_metrics['total_bytes_transferred'] += metrics.bandwidth * 0.5  # Assuming 0.5s interval
+            # Update global metrics with real transfer data
+            transfer_bytes = getattr(metrics, 'bytes_transferred', 0)
+            if transfer_bytes > 0:
+                # This is actual transfer data, not just bandwidth estimation
+                self.global_metrics['total_bytes_transferred'] += transfer_bytes
+            else:
+                # Fallback to bandwidth estimation for demo data
+                self.global_metrics['total_bytes_transferred'] += metrics.bandwidth * 0.5  # Assuming 0.5s interval
+            
             self.global_metrics['average_rtt'] = (
                 self.global_metrics['average_rtt'] * 0.9 + metrics.rtt * 0.1
             )
@@ -61,6 +68,8 @@ class MetricsCollector:
         """Get aggregated global metrics"""
         now = time.time()
         active_clients = 0
+        demo_clients = 0
+        real_clients = 0
         total_bandwidth = 0
         
         with self.lock:
@@ -68,10 +77,19 @@ class MetricsCollector:
                 if metrics and now - metrics[-1].timestamp < 5:  # Active in last 5s
                     active_clients += 1
                     total_bandwidth += metrics[-1].bandwidth
+                    
+                    # Count demo vs real clients
+                    is_demo = getattr(metrics[-1], 'is_demo', True)  # Default to demo for backward compatibility
+                    if is_demo:
+                        demo_clients += 1
+                    else:
+                        real_clients += 1
             
             return {
                 **self.global_metrics,
                 'active_connections': active_clients,
+                'demo_connections': demo_clients,
+                'real_connections': real_clients,
                 'total_bandwidth': total_bandwidth,
                 'timestamp': now
             }

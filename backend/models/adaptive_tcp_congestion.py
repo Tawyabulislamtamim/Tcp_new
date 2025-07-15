@@ -36,12 +36,14 @@ class AdaptiveTCPCongestionControl:
         self.last_switch_time = time.time()
         self.switch_cooldown = 10.0  # Minimum 10 seconds between switches
         
-        # Thresholds for network condition detection
-        self.rtt_threshold_high = 100.0  # ms
-        self.rtt_threshold_excellent = 20.0  # ms
-        self.loss_threshold_high = 0.02  # 2%
-        self.loss_threshold_low = 0.001  # 0.1%
-        self.bandwidth_threshold_high = 10 * 1024 * 1024  # 10 MB/s
+        # Thresholds for network condition detection (Research-based values)
+        self.rtt_threshold_high = 100.0  # ms - High latency threshold
+        self.rtt_threshold_low = 20.0    # ms - Low latency threshold  
+        self.loss_threshold_high = 0.02  # 2% - High loss threshold
+        self.loss_threshold_moderate = 0.01  # 1% - Moderate loss threshold
+        self.loss_threshold_low = 0.001  # 0.1% - Low loss threshold
+        self.bandwidth_threshold_high = 10 * 1024 * 1024  # 10 MB/s - High bandwidth
+        self.bdp_threshold_high = 1000   # High Bandwidth-Delay Product threshold
         
         # Algorithm performance tracking
         self.algorithm_performance = {
@@ -63,7 +65,10 @@ class AdaptiveTCPCongestionControl:
             self.algorithm = BBRAlgorithm()
     
     def detect_network_condition(self) -> NetworkCondition:
-        """Detect current network conditions based on metrics"""
+        """
+        Detect current network conditions based on research-backed thresholds
+        References: Multiple TCP congestion control studies and recommendations
+        """
         if len(self.rtt_history) < 5:
             return NetworkCondition.GOOD
         
@@ -72,29 +77,73 @@ class AdaptiveTCPCongestionControl:
         loss_rate = self.get_packet_loss_rate()
         recent_bandwidth = sum(self.bandwidth_history[-5:]) / min(len(self.bandwidth_history), 5) if self.bandwidth_history else 0
         
-        # Classify network condition
-        if loss_rate > self.loss_threshold_high:
-            return NetworkCondition.LOSSY
-        elif recent_rtt > self.rtt_threshold_high:
-            if recent_bandwidth > self.bandwidth_threshold_high:
-                return NetworkCondition.HIGH_BW  # High bandwidth, high delay (long fat network)
+        # Calculate Bandwidth-Delay Product (BDP) for high-speed long-distance detection
+        bdp = (recent_bandwidth * recent_rtt) / 8000  # Convert to bytes
+        
+        # Research-based classification logic
+        
+        # High Congestion / Frequent Packet Loss -> Tahoe/Reno
+        if loss_rate > self.loss_threshold_high:  # > 2%
+            if recent_rtt < self.rtt_threshold_low:  # < 20ms
+                return NetworkCondition.CONGESTED  # Use Reno for fast recovery
             else:
-                return NetworkCondition.CONGESTED
-        elif recent_rtt < self.rtt_threshold_excellent and loss_rate < self.loss_threshold_low:
+                return NetworkCondition.LOSSY  # Use Tahoe for stability
+        
+        # High-Speed, Long-Distance (High BDP) -> CUBIC
+        elif bdp > self.bdp_threshold_high and recent_rtt > self.rtt_threshold_high:  # High BDP, RTT > 100ms
+            return NetworkCondition.HIGH_BW
+        
+        # Lossy or Wireless Networks (moderate loss, not necessarily congestion) -> BBR
+        elif self.loss_threshold_low < loss_rate <= self.loss_threshold_moderate:  # 0.1% - 1%
+            return NetworkCondition.LOSSY  # BBR handles random loss well
+        
+        # Low Congestion / Low Loss -> Reno/CUBIC
+        elif loss_rate < self.loss_threshold_low and recent_rtt < self.rtt_threshold_low:  # < 0.1% loss, < 20ms RTT
             return NetworkCondition.EXCELLENT
+        
+        # Default: Normal conditions
         else:
             return NetworkCondition.GOOD
-    
+
     def get_optimal_algorithm(self, condition: NetworkCondition) -> AlgorithmType:
-        """Determine optimal algorithm for given network condition"""
-        algorithm_mapping = {
-            NetworkCondition.EXCELLENT: AlgorithmType.BBR,      # BBR excels in clean networks
-            NetworkCondition.GOOD: AlgorithmType.CUBIC,        # CUBIC for general use
-            NetworkCondition.CONGESTED: AlgorithmType.RENO,    # Reno's conservative approach
-            NetworkCondition.LOSSY: AlgorithmType.TAHOE,       # Tahoe's simple, robust approach
-            NetworkCondition.HIGH_BW: AlgorithmType.CUBIC      # CUBIC designed for high-BW
-        }
-        return algorithm_mapping.get(condition, AlgorithmType.RENO)
+        """
+        Determine optimal algorithm based on research recommendations
+        
+        References:
+        - High Congestion/Loss: Tahoe (stable), Reno (faster recovery)
+        - Low Congestion/Loss: Reno (simple), CUBIC (high throughput)
+        - High-Speed Long-Distance: CUBIC (optimized for high BDP)
+        - Lossy/Wireless: BBR (handles random loss)
+        - Mixed Flows: Reno/CUBIC (fairness)
+        """
+        
+        loss_rate = self.get_packet_loss_rate()
+        recent_rtt = sum(self.rtt_history[-10:]) / min(len(self.rtt_history), 10) if self.rtt_history else 50
+        
+        if condition == NetworkCondition.LOSSY:
+            # For high loss (>2%) with low RTT: Reno for fast recovery
+            # For high loss with high RTT: Tahoe for stability  
+            # For moderate loss (wireless-like): BBR for random loss tolerance
+            if loss_rate > self.loss_threshold_high:
+                return AlgorithmType.RENO if recent_rtt < self.rtt_threshold_low else AlgorithmType.TAHOE
+            else:
+                return AlgorithmType.BBR  # Better for wireless/random loss
+                
+        elif condition == NetworkCondition.CONGESTED:
+            # High congestion with frequent loss -> Reno for balance
+            return AlgorithmType.RENO
+            
+        elif condition == NetworkCondition.HIGH_BW:
+            # High-speed, long-distance networks -> CUBIC
+            return AlgorithmType.CUBIC
+            
+        elif condition == NetworkCondition.EXCELLENT:
+            # Low loss, low latency -> CUBIC for high throughput, or Reno for simplicity
+            return AlgorithmType.CUBIC
+            
+        else:  # GOOD condition
+            # General purpose -> CUBIC (modern default) or Reno (compatibility)
+            return AlgorithmType.CUBIC
     
     def should_switch_algorithm(self, target_algorithm: AlgorithmType) -> bool:
         """Determine if algorithm switch is beneficial"""

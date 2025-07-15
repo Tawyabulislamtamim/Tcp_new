@@ -37,16 +37,19 @@ def get_client_metrics(client_id):
 @metrics_bp.route('/stream')
 def stream_metrics():
     def generate():
-        metrics_collector = current_app.config['METRICS_COLLECTOR']
+        app = current_app._get_current_object()
         
-        while True:
-            try:
-                global_metrics = metrics_collector.get_global_metrics()
-                yield f"data: {json.dumps(global_metrics)}\n\n"
-                time.sleep(0.5)  # Update every 500ms
-            except Exception as e:
-                yield f"data: {json.dumps({'error': str(e)})}\n\n"
-                break
+        with app.app_context():
+            metrics_collector = app.config['METRICS_COLLECTOR']
+            
+            while True:
+                try:
+                    global_metrics = metrics_collector.get_global_metrics()
+                    yield f"data: {json.dumps(global_metrics)}\n\n"
+                    time.sleep(0.5)  # Update every 500ms
+                except Exception as e:
+                    yield f"data: {json.dumps({'error': str(e)})}\n\n"
+                    break
                 
     return Response(generate(), mimetype='text/event-stream')
 

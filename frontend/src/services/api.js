@@ -53,7 +53,12 @@ class APIService {
             }
 
             this.connected = true;
-            return healthData;
+            // Return connection data instead of health data
+            return {
+                connected: true,
+                client_id: this.clientId,
+                health: healthData
+            };
         } catch (error) {
             this.connected = false;
             this.clientId = null;
@@ -202,6 +207,35 @@ class APIService {
             return await response.json();
         } catch (error) {
             throw new Error(`Failed to start transfer: ${error.message}`);
+        }
+    }
+
+    async startDownloadSession(filePath, clientId) {
+        try {
+            const response = await this._fetchWithRetry(
+                `${this.baseURL}/transfer/start-download`, 
+                {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        path: filePath,
+                        client_id: clientId
+                    })
+                }
+            );
+            return await response.json();
+        } catch (error) {
+            throw new Error(`Failed to start download session: ${error.message}`);
+        }
+    }
+
+    async getDownloadProgress(sessionId) {
+        try {
+            const response = await this._fetchWithRetry(
+                `${this.baseURL}/transfer/download-progress/${sessionId}`
+            );
+            return await response.json();
+        } catch (error) {
+            throw new Error(`Failed to get download progress: ${error.message}`);
         }
     }
 

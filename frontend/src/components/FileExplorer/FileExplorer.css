@@ -1,6 +1,7 @@
 .file-explorer {
+  width: 1430px; /* Set your desired fixed width */
+  max-width: 100%; /* Prevent overflow on smaller screens */
   background: rgba(255, 255, 255, 0.95);
-  border-radius: 15px;
   padding: 1.5rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   -webkit-backdrop-filter: blur(10px);
@@ -68,8 +69,104 @@
 
 .file-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.file-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 1.1rem 1rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: box-shadow 0.18s, transform 0.18s;
+  border: 2px solid transparent;
+  min-height: 260px;
+  position: relative;
+}
+
+.file-card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.13);
+  border-color: #667eea;
+  transform: translateY(-2px) scale(1.03);
+}
+
+.file-card.directory {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+}
+
+.file-card-preview {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 110px;
+  margin-bottom: 0.7rem;
+}
+
+.file-card-thumbnail {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #f3f4f6;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+.file-card-video-thumb {
+  width: 90px;
+  height: 90px;
+  background: #f3f4f6;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+.file-card-info {
+  width: 100%;
+  text-align: center;
+  margin-top: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-card-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+  word-break: break-all;
+  max-width: 95%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-card-meta {
+  display: flex;
+  gap: 0.7rem;
+  font-size: 0.92rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.download-button {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.download-button:hover {
+  background: #059669;
 }
 
 .file-item {
@@ -122,22 +219,186 @@
   color: #666;
 }
 
-.download-button {
-  background: #10b981;
-  color: white;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.download-button:hover {
-  background: #059669;
-}
-
 .empty-directory {
   text-align: center;
   padding: 3rem;
   color: #666;
+}
+
+/* Upload feedback messages */
+.upload-feedback {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.upload-feedback.success {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.upload-feedback.error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.recent-files-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.file-manager-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 1rem;
+  gap: 2rem;
+}
+
+.file-manager-header .left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.search-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  gap: 0.5rem;
+}
+
+.search-icon {
+  color: #667eea;
+  font-size: 1.2rem;
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 1rem;
+  color: #374151;
+  width: 160px;
+}
+
+.filter-button {
+  background: #e0e7ff;
+  color: #4f46e5;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+}
+
+.filter-button:hover {
+  background: #c7d2fe;
+}
+
+.filter-icon {
+  font-size: 1.1rem;
+}
+
+.file-manager-header .right-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.storage-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.lock-icon {
+  color: #667eea;
+  font-size: 1.1rem;
+}
+
+.upload-button {
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.upload-button:hover {
+  background: #5a67d8;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.view-btn {
+  background: #f3f4f6;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: #667eea;
+  font-size: 1.2rem;
+  transition: background 0.2s;
+}
+
+.view-btn.selected {
+  background: #667eea;
+  color: white;
+}
+
+.view-btn:hover:not(.selected) {
+  background: #e0e7ff;
 }

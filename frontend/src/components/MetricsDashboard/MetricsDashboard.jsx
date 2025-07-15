@@ -5,7 +5,7 @@ import NetworkStats from './NetworkStats';
 import metricsService from '../../services/metricsService';
 import './MetricsDashboard.css';
 
-const MetricsDashboard = () => {
+const MetricsDashboard = ({ onMetricsUpdate }) => {
     const [globalMetrics, setGlobalMetrics] = useState(null);
     const [metricsHistory, setMetricsHistory] = useState([]);
     const [selectedTimespan, setSelectedTimespan] = useState(30);
@@ -19,11 +19,15 @@ const MetricsDashboard = () => {
         if (fetchedGlobalMetrics) {
             setGlobalMetrics(fetchedGlobalMetrics);
             setError(null);
+            // Pass metrics up to parent component
+            if (onMetricsUpdate) {
+                onMetricsUpdate(fetchedGlobalMetrics);
+            }
         }
         if (fetchError) {
             setError(fetchError);
         }
-    }, [fetchedGlobalMetrics, fetchError]);
+    }, [fetchedGlobalMetrics, fetchError, onMetricsUpdate]);
 
     // Fetch metrics history
     useEffect(() => {

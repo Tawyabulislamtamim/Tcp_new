@@ -83,6 +83,27 @@
     padding: 1rem;
   }
 }
+.analysis-button {
+  background: linear-gradient(90deg, #4f8cff 0%, #38e8ff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 12px 32px;
+  margin-top: 24px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(79, 140, 255, 0.15);
+  transition: background 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.analysis-button:hover {
+  background: linear-gradient(90deg, #38e8ff 0%, #4f8cff 100%);
+  transform: translateY(-2px) scale(1.04);
+}
 
 /* frontend/src/components/FileExplorer/FileExplorer.css */
 

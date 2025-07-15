@@ -192,6 +192,14 @@
     border-left-color: #7c3aed;
 }
 
+.stat-item.gray {
+    border-left-color: #9ca3af;
+}
+
+.stat-item.teal {
+    border-left-color: #0d9488;
+}
+
 .stat-icon {
     font-size: 24px;
     flex-shrink: 0;
@@ -218,6 +226,13 @@
     font-size: 14px;
     color: #6b7280;
     font-weight: 500;
+}
+
+.stat-detail {
+    font-size: 12px;
+    color: #9ca3af;
+    font-style: italic;
+    margin-top: 2px;
 }
 
 .real-time-indicator {

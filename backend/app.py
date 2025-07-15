@@ -126,20 +126,28 @@ def start_background_tasks(app):
                     metrics_collector = app.config['METRICS_COLLECTOR']
                     connection_manager = app.config['CONNECTION_MANAGER']
                     
-                    # Create sample clients if none exist (simulate multiple algorithms)
-                    active_clients = connection_manager.get_active_clients()
-                    if len(active_clients) < 3:  # Maintain 3 active clients for demonstration
-                        for i in range(3 - len(active_clients)):
-                            sample_client_id = connection_manager.register_client()
-                            client = connection_manager.get_client(sample_client_id)
-                            if client:
-                                # Start with different algorithms
-                                algorithms = ['reno', 'cubic', 'tahoe', 'bbr']
-                                algorithm = algorithms[i % len(algorithms)]
-                                app.logger.info(f"Created client {sample_client_id} with {algorithm} algorithm")
+                    # Only create demo clients if DEMO_MODE is enabled
+                    demo_mode = app.config.get('DEMO_MODE', False)
+                    if demo_mode:
+                        # Create sample clients if none exist (simulate multiple algorithms)
+                        active_clients = connection_manager.get_active_clients()
+                        demo_clients = {k: v for k, v in active_clients.items() if getattr(v, 'is_demo', False)}
+                        if len(demo_clients) < 3:  # Maintain 3 demo clients for demonstration
+                            for i in range(3 - len(demo_clients)):
+                                sample_client_id = connection_manager.register_client(is_demo=True)
+                                client = connection_manager.get_client(sample_client_id)
+                                if client:
+                                    # Start with different algorithms
+                                    algorithms = ['reno', 'cubic', 'tahoe', 'bbr']
+                                    algorithm = algorithms[i % len(algorithms)]
+                                    app.logger.info(f"Created DEMO client {sample_client_id} with {algorithm} algorithm")
                     
                     # Generate metrics for all active clients with adaptive switching
                     for client_id, client in connection_manager.get_active_clients().items():
+                        # Only generate demo metrics for demo clients, real metrics for real clients
+                        if getattr(client, 'is_demo', False) and not demo_mode:
+                            continue  # Skip demo clients if demo mode is disabled
+                            
                         # Simulate network activity and get conditions
                         rtt, bandwidth = client.simulate_network_activity()
                         
@@ -166,14 +174,16 @@ def start_background_tasks(app):
                                 'network_condition': performance_metrics['network_condition'],
                                 'packets_sent': performance_metrics['packets_sent'],
                                 'packets_lost': performance_metrics['packets_lost'],
-                                'time_since_switch': performance_metrics['switch_history']['time_since_switch']
+                                'time_since_switch': performance_metrics['switch_history']['time_since_switch'],
+                                'is_demo': getattr(client, 'is_demo', False)
                             })
                         
                         metrics_collector.record_metrics(client_id, metrics)
                         
                         # Log algorithm switches
                         if performance_metrics['switch_history']['time_since_switch'] < 3.0:
-                            app.logger.info(f"Client {client_id}: Algorithm switched to {performance_metrics['current_algorithm']} "
+                            client_type = "DEMO" if getattr(client, 'is_demo', False) else "REAL"
+                            app.logger.info(f"{client_type} Client {client_id}: Algorithm switched to {performance_metrics['current_algorithm']} "
                                           f"(Condition: {performance_metrics['network_condition']}, "
                                           f"State: {performance_metrics['algorithm_state']})")
                         
@@ -250,11 +260,32 @@ def register_core_routes(app):
     def connect_client():
         try:
             cm = app.config['CONNECTION_MANAGER']
-            client_id = cm.register_client()
-            app.logger.info(f"New client connected: {client_id}")
+            
+            # Check if there's already a real client connection (non-demo)
+            # Only allow one real client per frontend session to prevent connection spam
+            active_clients = cm.get_active_clients()
+            real_clients = [c for c in active_clients.values() if not getattr(c, 'is_demo', False)]
+            
+            if len(real_clients) > 0:
+                # Return existing real client instead of creating new one
+                existing_client = real_clients[0]
+                existing_client.update_activity()
+                app.logger.info(f"Reusing existing real client: {existing_client.client_id}")
+                return jsonify({
+                    'client_id': existing_client.client_id,
+                    'status': 'connected',
+                    'reused': True,
+                    'timestamp': datetime.utcnow().isoformat(),
+                    'algorithm': existing_client.tcp_controller.get_current_algorithm()
+                }), 200
+            
+            # Create new real client connection
+            client_id = cm.register_client(is_demo=False)
+            app.logger.info(f"New REAL client connected: {client_id}")
             return jsonify({
                 'client_id': client_id,
                 'status': 'connected',
+                'reused': False,
                 'timestamp': datetime.utcnow().isoformat(),
                 'algorithm': app.config.get('DEFAULT_ALGORITHM', 'reno')
             }), 201

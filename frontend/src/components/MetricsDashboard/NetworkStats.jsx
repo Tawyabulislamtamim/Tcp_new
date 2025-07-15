@@ -16,14 +16,31 @@ const NetworkStats = ({ metrics }) => {
             value: metrics.active_connections || 0,
             unit: '',
             icon: '🔗',
-            color: 'blue'
+            color: 'blue',
+            detail: `Demo: ${metrics.demo_connections || 0}, Real: ${metrics.real_connections || 0}`
+        },
+        {
+            label: 'Real Transfers',
+            value: metrics.real_connections || 0,
+            unit: '',
+            icon: '🚀',
+            color: 'green',
+            detail: 'Active file transfers'
+        },
+        {
+            label: 'Demo Connections',
+            value: metrics.demo_connections || 0,
+            unit: '',
+            icon: '🎭',
+            color: 'gray',
+            detail: 'Simulated for testing'
         },
         {
             label: 'Total Bandwidth',
             value: formatBandwidth(metrics.total_bandwidth || 0),
             unit: '',
             icon: '📊',
-            color: 'green'
+            color: 'purple'
         },
         {
             label: 'Average RTT',
@@ -37,7 +54,7 @@ const NetworkStats = ({ metrics }) => {
             value: formatBytes(metrics.total_bytes_transferred || 0),
             unit: '',
             icon: '💾',
-            color: 'purple'
+            color: 'teal'
         }
     ];
 
@@ -54,6 +71,7 @@ const NetworkStats = ({ metrics }) => {
                                 {stat.unit && <span className="stat-unit">{stat.unit}</span>}
                             </div>
                             <div className="stat-label">{stat.label}</div>
+                            {stat.detail && <div className="stat-detail">{stat.detail}</div>}
                         </div>
                     </div>
                 ))}
